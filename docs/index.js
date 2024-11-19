@@ -129,7 +129,6 @@ function clickToCheck(e) {
   changeNowPlayer();
   // 勝利判定
   checkResult();
-  console.log(currentGameState);
 }
 // リセットボタンをクリックした時の処理の関数
 function resetAction() {
