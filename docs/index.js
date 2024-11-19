@@ -1,4 +1,4 @@
-// ゲーム設定の定数をオブジェクトにまとめる
+// 設定、定数の定義
 const GAME_CONFIG = {
   // 記号
   SYMBOLS: {
@@ -19,7 +19,7 @@ const GAME_CONFIG = {
     [1, 5, 9],
     [3, 5, 7],
   ],
-  // 追加：初期状態の設定
+  // ターン数とゲーム終了フラグの初期値
   GAME_STATE: {
     INITIAL: {
       turn: 1,
@@ -31,42 +31,36 @@ const GAME_CONFIG = {
 // ゲームの状態を管理するオブジェクト
 let currentGameState = { ...GAME_CONFIG.GAME_STATE.INITIAL };
 
+// ユーティリティ関数ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
+
 // IDを取得する関数
 function getId(any) {
   return document.getElementById(any);
 }
-
 // ターンを判別する関数
 function isCircle() {
+  // ターン数が奇数ならtrue、偶数ならfalse
   return currentGameState.turn % 2 === 1;
 }
-
-// 現在のターンのプレイヤーを表示する関数
-function changeNowPlayer() {
-  if (isCircle()) {
-    getId("tool_nowPlayer").innerHTML = GAME_CONFIG.SYMBOLS.CIRCLE + "のターン";
-  } else {
-    getId("tool_nowPlayer").innerHTML = GAME_CONFIG.SYMBOLS.CROSS + "のターン";
-  }
+// ゲームの状態を初期化する関数
+function initializeGameState() {
+  currentGameState = { ...GAME_CONFIG.GAME_STATE.INITIAL };
 }
-
 // 勝利判定の関数
 function checkResult() {
-  // ゲーム終了チェック
-  if (currentGameState.isGameOver) return;
-  // ターン表示を空白にする関数
-  function resetNowPlayer() {
-    getId("tool_nowPlayer").innerHTML = "";
-  }
   // 各勝利パターンをチェック
   for (let pattern of GAME_CONFIG.WIN_PATTERNS) {
+    // 勝利パターンの3つのマス目を取得
     const [a, b, c] = pattern;
+    // 3つのマス目の記号を取得
     const valueA = getId(`s${a}`).value;
     const valueB = getId(`s${b}`).value;
     const valueC = getId(`s${c}`).value;
     // 3つのマスが同じ記号で埋まっているかチェック
     if (valueA !== "" && valueA === valueB && valueB === valueC) {
+      // ゲーム終了フラグをtrueにする
       currentGameState.isGameOver = true;
+      // 勝利メッセージを表示
       getId("tool_resultText").innerHTML = valueA + "の勝利！";
       // ターン表示を空白にする
       resetNowPlayer();
@@ -77,7 +71,9 @@ function checkResult() {
   }
   // 引き分けチェック
   if (currentGameState.turn === 9) {
+    // ゲーム終了フラグをtrueにする
     currentGameState.isGameOver = true;
+    // 引き分けメッセージを表示
     getId("tool_resultText").innerHTML = "引き分け！";
     // ターン表示を空白にする
     resetNowPlayer();
@@ -87,14 +83,34 @@ function checkResult() {
   }
 }
 
-// 盤面の無効化の関数
+// UI操作関数ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
+
+// 現在のターンのプレイヤーを表示する関数
+function changeNowPlayer() {
+  // ターン数が奇数なら⚫︎、偶数なら✕
+  if (isCircle()) {
+    getId("tool_nowPlayer").innerHTML = GAME_CONFIG.SYMBOLS.CIRCLE + "のターン";
+  } else {
+    getId("tool_nowPlayer").innerHTML = GAME_CONFIG.SYMBOLS.CROSS + "のターン";
+  }
+}
+// ターン表示を空白にする関数
+function resetNowPlayer() {
+  getId("tool_nowPlayer").innerHTML = "";
+}
+// クリック操作の無効化の関数
 function disableAllSquares() {
   for (let i = 1; i <= 9; i++) {
     getId(`s${i}`).onclick = null;
   }
 }
-
-// クリックしたマス目に記号を入力する関数
+// クリック操作の有効化の関数
+function enableAllSquares() {
+  for (let i = 1; i <= 9; i++) {
+    getId(`s${i}`).onclick = clickToCheck;
+  }
+}
+// クリックしたマス目に⚫︎、✕を入力する関数
 function clickToCheck(e) {
   // クリックしたマス目のIDを取得
   let id = e.target.id;
@@ -113,20 +129,8 @@ function clickToCheck(e) {
   changeNowPlayer();
   // 勝利判定
   checkResult();
+  console.log(currentGameState);
 }
-
-// クリック操作の有効化の関数
-function enableAllSquares() {
-  for (let i = 1; i <= 9; i++) {
-    getId(`s${i}`).onclick = clickToCheck;
-  }
-}
-
-// ゲームの状態を初期化する関数を追加
-function initializeGameState() {
-  currentGameState = { ...GAME_CONFIG.GAME_STATE.INITIAL };
-}
-
 // リセットボタンをクリックした時の処理の関数
 function resetAction() {
   // マス目の記号を初期値に戻す
@@ -135,21 +139,30 @@ function resetAction() {
   }
   // ゲームの状態を初期化
   initializeGameState();
+  // ターン表示を初期値に戻す
   changeNowPlayer();
+  // 勝利判定のテキストを初期値に戻す
   getId("tool_resultText").innerHTML = "";
+  // クリック操作を有効化
   enableAllSquares();
 }
+
+// イベント処理関数ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
 
 // イベントリスナーの設定
 function setupEventListeners() {
+  // リセットボタンをクリックした時の処理
   getId("reset").addEventListener("click", resetAction);
+  // クリック操作を有効化
   enableAllSquares();
 }
-
-// リロードした時の初期化の関数
+// ページが読み込まれた時の初期化の関数
 function onloadAction() {
+  // イベントリスナーの設定
   setupEventListeners();
+  // ターン表示を初期値に戻す
   changeNowPlayer();
 }
 
+// ページが読み込まれた時、onloadActionを実行
 window.addEventListener("load", onloadAction);
