@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>まるばつゲーム</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="index.js" defer></script>
+  </head>
+  <body>
+    <header class="header">
+      <h1>まるばつゲーム</h1>
+    </header>
+    <main>
+      <!-- 全体 -->
+      <div class="playArea">
+        <!-- 情報表示 -->
+        <div class="tool">
+          <p id="tool_nowPlayer">⚫︎のターン</p>
+          <p id="tool_resultText"></p>
+          <button type="button" id="reset" class="tool_replayButton">
+            リセット
+          </button>
+        </div>
+
+        <!-- 盤面 -->
+        <div class="gameBoard">
+          <div class="playArea_row">
+            <input type="playArea_gameBoard-btn" class="square" id="s1" />
+            <input type="playArea_gameBoard-btn" class="square" id="s2" />
+            <input type="playArea_gameBoard-btn" class="square" id="s3" />
+          </div>
+          <div class="playArea_row">
+            <input type="playArea_gameBoard-btn" class="square" id="s4" />
+            <input type="playArea_gameBoard-btn" class="square" id="s5" />
+            <input type="playArea_gameBoard-btn" class="square" id="s6" />
+          </div>
+          <div class="playArea_row">
+            <input type="playArea_gameBoard-btn" class="square" id="s7" />
+            <input type="playArea_gameBoard-btn" class="square" id="s8" />
+            <input type="playArea_gameBoard-btn" class="square" id="s9" />
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer class="footer">
+      <p>®️ MarubatsuGame for Engineer School</p>
+    </footer>
+  </body>
+</html>

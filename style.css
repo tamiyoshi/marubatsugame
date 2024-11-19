@@ -1,0 +1,94 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.header {
+  background-color: #fff9a2;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.playArea {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5%;
+  height: calc(100vh - 150px);
+}
+
+.tool {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 300px;
+}
+
+#tool_nowPlayer {
+  background-color: #e3e3e3;
+  text-align: center;
+  padding: 20px;
+  font-weight: bold;
+  font-size: 25px;
+}
+
+#tool_resultText {
+  background-color: #fff4c9;
+  text-align: center;
+  padding: 20px;
+  font-weight: bold;
+  font-size: 25px;
+  color: #e44545;
+  border-radius: 10px;
+}
+
+.tool_replayButton {
+  margin: 0 auto;
+  margin-top: 10%;
+  padding: 16px;
+  width: 70%;
+  font-size: 18px;
+  border-radius: 30px;
+  border: 1px solid #000;
+  color: #fff;
+  background-color: #1d95b6;
+  cursor: pointer;
+}
+
+.tool_replayButton:hover {
+  background-color: #59bedb;
+  color: #2b2b2b;
+}
+
+.gameBoard {
+  border: 1px solid #000;
+}
+
+.playArea_row {
+  display: flex;
+}
+
+.square {
+  text-align: center;
+  color: #fff;
+  background-color: #1b8345;
+  border: 1px solid #000;
+  caret-color: transparent;
+  font-size: 100px;
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  background-color: #0686ff;
+  color: #fff;
+}
